@@ -45,3 +45,17 @@ jobs:
         path: report.html
     - name: Tets Execution Status
       run: echo "Test Execution Completed"
+    - name: Copy Report to gh-pages folder
+      if: always()
+      run: |
+        mkdir -p public/extent-report
+        cp -R report.html public/extent-report
+        cp -R screenshot/ public/extent-report/screenshot
+        ls -l
+    - name: Deploy
+      if: always()
+      uses: JamesIves/github-pages-deploy-action@v4.7.3
+      with: 
+        folder: public/extent-report
+        token: ${{ secrets.PATReport }}
+        clean: true
